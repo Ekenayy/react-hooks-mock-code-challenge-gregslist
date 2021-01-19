@@ -6,7 +6,8 @@ function App() {
 
   const listingsUrl = "http://localhost:6001/listings"
   const [listings, setListings] = useState([])
-  const [searched, setSearched] = useState("Hello")
+  const [searched, setSearched] = useState("")
+  const [sort, setSort] = useState(false)
  
   useEffect(() => {
     fetch(listingsUrl)
@@ -29,10 +30,21 @@ function App() {
     setListings(remainingListings)
   }
 
+  const addListing = (newListing) => {
+    
+    fetch(listingsUrl, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(newListing)
+    })
+      .then(r => r.json())
+      .then(newListing => setListings([...listings, newListing]))
+  }
+
   return (
     <div className="app">
-      <Header searched={searched} setSearched={setSearched} />
-      <ListingsContainer searched={searched} onDelete={onDelete} listings={listings}/>
+      <Header sort={sort} setSort={setSort} searched={searched} setSearched={setSearched} />
+      <ListingsContainer addListing={addListing} sort={sort} searched={searched} onDelete={onDelete} listings={listings}/>
     </div>
   );
 }

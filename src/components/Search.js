@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 
-function Search( {searched, setSearched} ) {
+function Search( {searched, sort, setSort, setSearched} ) {
 
   function handleSubmit(e) {
     e.preventDefault();
     console.log("submitted");
   }
 
+
   return (
+    <>
     <form className="searchbar" onSubmit={handleSubmit}>
       <input
         type="text"
@@ -18,6 +20,8 @@ function Search( {searched, setSearched} ) {
       />
       <button type="submit">🔍</button>
     </form>
+    <button onClick={() => setSort(!sort)}>Sort Alphabetically by Location</button>
+    </>
   );
 }
 
